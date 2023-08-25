@@ -46,7 +46,6 @@ class guess_number_game:
         random.shuffle(digits) 
         # Take the first 4 digits
         generated_value = int(''.join(map(str, digits[:4])))  
-        print(f'RAND=> {generated_value}')
         return generated_value
 
     # Compare the player's guess with the generated number
