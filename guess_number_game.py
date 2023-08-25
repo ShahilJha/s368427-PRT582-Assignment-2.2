@@ -65,12 +65,11 @@ class guess_number_game:
         return False
 
     def check_game_finish_input_option(self, input):
-        if input != "q" or input != "Q" or input != "r" or input != "R":
+        if input not in ["q", "Q", "r", "R"]:
             raise ValueError("Value should be either Q or R.")
 
-        if input == "q" or input == "Q":
+        if input.lower() == "q":
             return False
-
         else:
             return True
 
