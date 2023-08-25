@@ -34,13 +34,18 @@ class guess_number_game:
 
     # Print game rules from a markdown file
     def print_rules(self):
+        # open the rules.md file and assign to varaible
         with open("rules.md") as readme:
             markdown = Markdown(readme.read())
         self.console.print(markdown)
 
     # Generate a random four-digit number
     def generate_random_number(self):
-        generated_value = random.randint(1000, 9999)
+        digits = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+        # Shuffle the digits
+        random.shuffle(digits) 
+        # Take the first 4 digits
+        generated_value = int(''.join(map(str, digits[:4])))  
         return generated_value
 
     # Compare the player's guess with the generated number
@@ -50,8 +55,9 @@ class guess_number_game:
             isinstance(self.generated_number, int) and isinstance(guess_number, int)
         ):
             raise ValueError("Both inputs must be integers")
-
-        if not (1000 <= self.generated_number <= 9999 and 1000 <= guess_number <= 9999):
+        
+        # check the numbers are in range and are of 4 digits
+        if not (len(str(self.generated_number)) == 4 and len(str(guess_number)) == 4):
             raise ValueError("Both numbers must be 4-digit numbers")
 
         # Convert numbers to strings for comparison
