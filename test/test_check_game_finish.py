@@ -5,16 +5,7 @@ from guess_number_game import guess_number_game
 class TestGuessNumberGame(unittest.TestCase):
     def setUp(self):
         self.game = guess_number_game(1234)
-
-    def test_compare_guess_correct(self):
-        self.game.generated_number = 1234
-        self.assertTrue(self.game.compare_guess(1234))
-
-    def test_compare_guess_incorrect(self):
-        self.game.generated_number = 1234
-        self.assertFalse(self.game.compare_guess(5678))
-
-    
+        
     def test_check_game_finish_input_option_quit(self):
         self.assertFalse(self.game.check_game_finish_input_option("q"))
 
@@ -32,9 +23,12 @@ class TestGuessNumberGame(unittest.TestCase):
 
     
     def test_check_game_finish_input_option_invalid_then_quit(self):
-        with self.assertRaises(ValueError):
-            self.game.check_game_finish_input_option("invalid")
-        self.assertFalse(self.game.check_game_finish_input_option("q"))
+        with self.assertRaises(ValueError) as exception_context:
+            self.game.check_game_finish_input_option(input='a')
+        self.assertEqual(
+            str(exception_context.exception),
+            "Value should be either Q or R (in lowercase or uppercase)."
+        )
 
 if __name__ == '__main__':
     unittest.main()

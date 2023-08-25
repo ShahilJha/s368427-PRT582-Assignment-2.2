@@ -78,7 +78,7 @@ class guess_number_game:
     # Check if the player wants to quit or replay
     def check_game_finish_input_option(self, input):
         if input not in ["q", "Q", "r", "R"]:
-            raise ValueError("Value should be either Q or R.")
+            raise ValueError("Value should be either Q or R (in lowercase or uppercase).")
 
         # return false if to quit the game
         if input.lower() == "q":
