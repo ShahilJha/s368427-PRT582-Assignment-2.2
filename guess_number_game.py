@@ -11,7 +11,7 @@ class guess_number_game:
     def __init__(self, secret_number=None):
         # Generate a random number if no secret number is provided
         self.generated_number = (
-            secret_number if secret_number else self.generate_random_number()
+            int(secret_number) if secret_number else self.generate_random_number()
         )
         # Initialize the number of attempts and create console and table objects
         self.attempts = 0
@@ -41,7 +41,7 @@ class guess_number_game:
     # Generate a random four-digit number
     def generate_random_number(self):
         generated_value = random.randint(1000, 9999)
-        print(f'RANDOM NUM -> {generated_value}')
+        # print(f'RANDOM NUM -> {generated_value}')
         return generated_value
 
     # Compare the player's guess with the generated number
@@ -74,7 +74,6 @@ class guess_number_game:
                 crosses += "X"
 
         self.table.add_row(str(guess_number), str(crosses), str(circles))
-        self.console.print(self.table)
         return False
 
     # Check if the player wants to quit or replay
@@ -98,6 +97,7 @@ class guess_number_game:
         while flag:
             input_number = int(input("Input your guessed number : "))
             compare_result = self.compare_guess(input_number)
+            self.console.print(self.table)
 
             # Check if the player guessed correctly
             if compare_result == True:
@@ -108,6 +108,8 @@ class guess_number_game:
                 
                 # Ask the player to quit or replay
                 option_input = input("Input option: ")
+                
+                # print the table with the input history
                 self.console.clear()
 
                 # Restart or quit the game based on player's choice
@@ -119,5 +121,5 @@ class guess_number_game:
         exit()
 
 # Create an instance of the game and start it
-game = guess_number_game()
-game.start_game()
+# game = guess_number_game()
+# game.start_game()
