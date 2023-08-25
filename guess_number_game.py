@@ -98,11 +98,10 @@ class guess_number_game:
     def start_game(self):
         # Prepare the game for the first round
         self.prep_game()
-        flag = True
         print("[bold magenta]You can Enter 'q' or 'Q' any time to quit the game.\nPlease Enter to Start the Game. [/bold magenta]")
         input()
         # Game loop
-        while flag:
+        while True:
             # take user input
             user_input =input("Input your guessed number : ")
             # Quit game if the input is q
