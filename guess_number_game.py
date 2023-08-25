@@ -4,36 +4,52 @@ from rich.table import Table
 from rich.markdown import Markdown
 from rich import print
 
+
 class guess_number_game:
     def __init__(self, secret_number=None):
-        self.secret_number = secret_number if secret_number else self.generate_random_number()
+        self.generated_number = (
+            secret_number if secret_number else self.generate_random_number()
+        )
         self.attempts = 0
         self.console = Console()
-        self.history = []
-        
+        self.table = Table(title="HISTORY",show_header=True, header_style="bold magenta")
+        self.table.add_column("Guesses", width=12, justify="center")
+        self.table.add_column("Crosses", width=12, justify="center")
+        self.table.add_column("Circles", width=12, justify="center")
+
+    def prep_game(self):
+        self.attempts = 0
+        self.table = Table(title="HISTORY",show_header=True, header_style="bold magenta")
+        self.table.add_column("Guesses", width=12, justify="center")
+        self.table.add_column("Crosses", width=12, justify="center")
+        self.table.add_column("Circles", width=12, justify="center")
+        self.print_rules()
+
     def print_rules(self):
         with open("rules.md") as readme:
             markdown = Markdown(readme.read())
         self.console.print(markdown)
-    
+
     def generate_random_number(self):
-        return "".join(random.sample("0123456789", 4))
-    
-    def check_guess(self):
-        return True
-    
-    def compare_numbers(self, generated_number, guess_number):
-        if not (isinstance(generated_number, int) and isinstance(guess_number, int)):
+        generated_value = random.randint(1000, 9999)
+        print(f'RANDOM NUM -> {generated_value}')
+        return generated_value
+
+    def compare_guess(self, guess_number):
+        if not (
+            isinstance(self.generated_number, int) and isinstance(guess_number, int)
+        ):
             raise ValueError("Both inputs must be integers")
 
-        if not (1000 <= generated_number <= 9999 and 1000 <= guess_number <= 9999):
+        if not (1000 <= self.generated_number <= 9999 and 1000 <= guess_number <= 9999):
             raise ValueError("Both numbers must be 4-digit numbers")
 
-        str_number1 = str(generated_number)
+        str_number1 = str(self.generated_number)
         str_number2 = str(guess_number)
 
+        self.attempts += 1
         if str_number1 == str_number2:
-            return "Same number"
+            return True
 
         crosses = ""
         circles = ""
@@ -44,17 +60,43 @@ class guess_number_game:
             elif str_number1[i] in str_number2:
                 crosses += "X"
 
-        self.history.append([guess_number, crosses, circles])
- 
+        self.table.add_row(str(guess_number), str(crosses), str(circles))
+        self.console.print(self.table)
+        return False
+
+    def check_game_finish_input_option(self, input):
+        if input != "q" or input != "Q" or input != "r" or input != "R":
+            raise ValueError("Value should be either Q or R.")
+
+        if input == "q" or input == "Q":
+            return False
+
+        else:
+            return True
+
     def start_game(self):
-        self.print_rules()
+        self.prep_game()
         flag = True
-        print("[bold magenta]Press Enter to Start the Game: [/bold magenta]")
+        print("[bold magenta]Please Enter to Start the Game. [/bold magenta]")
         input()
-        # while flag:
-        #     return True
-            
-    
+        while flag:
+            input_number = int(input("Input your guessed number : "))
+            compare_result = self.compare_guess(input_number)
+
+            if compare_result == True:
+                print(
+                    f"[bold red]Congratulations!!! \nYou guessed the correct number in {self.attempts} attemps!![/bold red]"
+                )
+                print("[bold magenta]Enter q or Q to quit the game. \n Enter r or R to replay the game.[/bold magenta]")
+                
+                option_input = input("Input option: ")
+                self.console.clear()
+
+                if option_input:
+                    self.prep_game()
+                else:
+                    flag = False
+        exit()
 
 
 game = guess_number_game()
