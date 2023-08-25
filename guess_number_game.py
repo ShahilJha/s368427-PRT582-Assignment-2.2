@@ -41,7 +41,6 @@ class guess_number_game:
     # Generate a random four-digit number
     def generate_random_number(self):
         generated_value = random.randint(1000, 9999)
-        # print(f'RANDOM NUM -> {generated_value}')
         return generated_value
 
     # Compare the player's guess with the generated number
@@ -81,8 +80,10 @@ class guess_number_game:
         if input not in ["q", "Q", "r", "R"]:
             raise ValueError("Value should be either Q or R.")
 
+        # return false if to quit the game
         if input.lower() == "q":
             return False
+        # return true to replay the game
         else:
             return True
 
@@ -104,22 +105,21 @@ class guess_number_game:
                 print(
                     f"[bold red]Congratulations!!! \nYou guessed the correct number in {self.attempts} attempts!![/bold red]"
                 )
-                print("[bold magenta]Enter q or Q to quit the game. \n Enter r or R to replay the game.[/bold magenta]")
+                print("[bold magenta]Enter q or Q to quit the game.\nEnter r or R to replay the game.[/bold magenta]")
                 
                 # Ask the player to quit or replay
                 option_input = input("Input option: ")
+                
+                # variable to check whether to quit or replqy the game
+                game_flow_flag = self.check_game_finish_input_option(option_input)
                 
                 # print the table with the input history
                 self.console.clear()
 
                 # Restart or quit the game based on player's choice
-                if option_input:
+                if game_flow_flag:
                     self.prep_game()
                 else:
                     flag = False
         # Exit the game
         exit()
-
-# Create an instance of the game and start it
-# game = guess_number_game()
-# game.start_game()
