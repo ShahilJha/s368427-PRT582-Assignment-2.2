@@ -73,8 +73,8 @@ class guess_number_game:
             raise ValueError("Both inputs must be integers")
         
          # Convert numbers to strings for comparison
-        temp_str_number1 = str(self.generated_number)
-        temp_str_number2 = str(guess_number)
+        temp_str_number1 = str(self.generated_number) if self.generated_number != 0 else "0000"
+        temp_str_number2 = str(guess_number) if guess_number != 0 else "0000"
         
         # resolve length issue if the front of any number is 0
         str_number1 = temp_str_number1 if len(temp_str_number1)==4 else ('0' + temp_str_number1)
@@ -94,7 +94,7 @@ class guess_number_game:
         hint = self.get_hint(str_number1, str_number2)
 
         # add the hint to table
-        self.table.add_row(str(guess_number), hint['X'], hint['O'])
+        self.table.add_row(temp_str_number2, hint['X'], hint['O'])
         return False
 
     # Check if the player wants to quit or replay
@@ -153,3 +153,6 @@ class guess_number_game:
                     break
         # Exit the game
         exit()
+
+game = guess_number_game()
+game.start_game()
