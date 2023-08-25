@@ -82,7 +82,7 @@ class guess_number_game:
         str_number2 = temp_str_number2 if len(temp_str_number2)==4 else ('0' + temp_str_number2)
         
         # check the numbers are in range and are of 4 digits
-        if not (len(str(self.generated_number)) == 4 and len(str(guess_number)) == 4):
+        if not (len(str_number1) == 4 and len(str_number2) == 4):
             raise ValueError("Both numbers must be 4-digit numbers")
         
 
