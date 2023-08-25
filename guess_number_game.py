@@ -46,7 +46,24 @@ class guess_number_game:
         random.shuffle(digits) 
         # Take the first 4 digits
         generated_value = int(''.join(map(str, digits[:4])))  
+        print(f'GEn=> {generated_value}')
         return generated_value
+    
+    # method to compare numbers and generate hint
+    def get_hint(self, str_num1, str_num2):
+        crosses = ""
+        circles = ""
+        # iterate the string casted numver generate hints
+        for i in range(4):
+            if str_num1[i] == str_num2[i]:
+                circles += "O"
+            elif str_num1[i] in str_num2:
+                crosses += "X"
+        data = {
+            'O': circles,
+            'X': crosses
+        }
+        return data
 
     # Compare the player's guess with the generated number
     def compare_guess(self, guess_number):
@@ -56,29 +73,29 @@ class guess_number_game:
         ):
             raise ValueError("Both inputs must be integers")
         
+         # Convert numbers to strings for comparison
+        temp_str_number1 = str(self.generated_number)
+        temp_str_number2 = str(guess_number)
+        
+        # resolve length issue if the front of any number is 0
+        str_number1 = temp_str_number1 if len(temp_str_number1)==4 else ('0' + temp_str_number1)
+        str_number2 = temp_str_number2 if len(temp_str_number2)==4 else ('0' + temp_str_number2)
+        
         # check the numbers are in range and are of 4 digits
         if not (len(str(self.generated_number)) == 4 and len(str(guess_number)) == 4):
             raise ValueError("Both numbers must be 4-digit numbers")
-
-        # Convert numbers to strings for comparison
-        str_number1 = str(self.generated_number)
-        str_number2 = str(guess_number)
+        
 
         # Increment the number of attempts
         self.attempts += 1
         if str_number1 == str_number2:
             return True
 
-        # Compare digits and update the table
-        crosses = ""
-        circles = ""
-        for i in range(4):
-            if str_number1[i] == str_number2[i]:
-                circles += "O"
-            elif str_number1[i] in str_number2:
-                crosses += "X"
+        # get hint
+        hint = self.get_hint(str_number1, str_number2)
 
-        self.table.add_row(str(guess_number), str(crosses), str(circles))
+        # add the hint to table
+        self.table.add_row(str(guess_number), hint['X'], hint['O'])
         return False
 
     # Check if the player wants to quit or replay
