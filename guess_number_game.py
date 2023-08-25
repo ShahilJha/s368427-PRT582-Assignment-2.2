@@ -46,6 +46,7 @@ class guess_number_game:
         random.shuffle(digits) 
         # Take the first 4 digits
         generated_value = int(''.join(map(str, digits[:4])))  
+        print(f'RAND=> {generated_value}')
         return generated_value
 
     # Compare the player's guess with the generated number
@@ -98,12 +99,21 @@ class guess_number_game:
         # Prepare the game for the first round
         self.prep_game()
         flag = True
-        print("[bold magenta]Please Enter to Start the Game. [/bold magenta]")
+        print("[bold magenta]You can Enter 'q' or 'Q' any time to quit the game.\nPlease Enter to Start the Game. [/bold magenta]")
         input()
         # Game loop
         while flag:
-            input_number = int(input("Input your guessed number : "))
+            # take user input
+            user_input =input("Input your guessed number : ")
+            # Quit game if the input is q
+            if user_input.lower() == "q":
+                break
+            
+            # converting the input to integer
+            input_number = int(user_input)
+            # compare the user input with the generated number
             compare_result = self.compare_guess(input_number)
+            # print the history of user input
             self.console.print(self.table)
 
             # Check if the player guessed correctly
@@ -126,6 +136,6 @@ class guess_number_game:
                 if game_flow_flag:
                     self.prep_game()
                 else:
-                    flag = False
+                    break
         # Exit the game
         exit()
