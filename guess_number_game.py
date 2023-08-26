@@ -153,6 +153,3 @@ class guess_number_game:
                     break
         # Exit the game
         exit()
-
-game = guess_number_game()
-game.start_game()
